@@ -95,7 +95,7 @@ def distribute_roles(num_players):
 
     valid_roles = [role for role in absent_roles if role not in demon_list and role not in minion_list and role != disguise and role not in ['酒鬼', '失忆者']]
     disguisers = random.sample(valid_roles, 3)
-    
+
     return final_roles, special_notes, disguisers, true_role
 
 
@@ -139,7 +139,7 @@ demon_strength = {'哈迪寂亚': 8, '亡骨魔': 2}
 player_list = {
     '7': [5,0,1,1],
     '8': [5,1,1,1], 
-    '9': [5,2,0,1],
+    '9': [5,2,1,1],
     '10': [7,0,2,1],
     '11': [7,1,2,1],
     '12': [7,2,2,1],

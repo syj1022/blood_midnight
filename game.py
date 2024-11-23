@@ -3,9 +3,8 @@ import re
 import random
 
 night = input('这是第几晚？')
-roles_file = night + '_roles.csv'
 
-with open(roles_file, mode='r', encoding='utf-8') as file:
+with open(night + '_roles.csv', mode='r', encoding='utf-8') as file:
     reader = csv.reader(file)
     data = list(reader)
 
@@ -44,14 +43,16 @@ print('\n')
 
 if get_index(data, '食人族') != None:
     if len(lynched) > 0:
-        print(f"（说书人）{get_index(data, '食人族')+1}号食人族吃了{lynched[0][-1]}！")
+        c = input(f"（说书人）{get_index(data, '食人族')+1}号食人族吃了{lynched[0][-1]}！")
     else:
-        print(f"（说书人）{get_index(data, '食人族')+1}号食人族无技能！")
+        c = input(f"（说书人）{get_index(data, '食人族')+1}号食人族无技能！")
 
 if get_index(data, '罂粟种植者') != None and data[get_index(data, '罂粟种植者')][0] != '死亡' and data[get_index(data, '罂粟种植者')][0] != '中毒':
-    print(f"（说书人）{get_index(data, '罂粟种植者') + 1}号罂粟种植者在场哦，记得给红方阵营建群！")
+    y = input(f"（说书人）{get_index(data, '罂粟种植者') + 1}号罂粟种植者在场哦，不能不能不能给红方阵营建群！")
+else:
+    y = input(f"（说书人）罂粟种植者不在场哦，记得要给红方阵营建群！")
 
-if get_amnesiac(data) != None and data[get_amnesiac(data)][0] != '死亡':
+if get_amnesiac(data) != None and data[get_amnesiac(data)][0] != '死亡' and night != '1':
     guess = input(f'{get_amnesiac(data)+1}号失忆者猜对自己是谁了吗？(y/n) ')
     if guess == 'y':
         for row in data:
@@ -223,10 +224,16 @@ if get_index(data, '巡山人') != None and data[get_index(data, '巡山人')][0
             print(' - 无事发生！')
 
 if get_index(data, '贵族') != None and night == '1':
-    print(f"（说书人）请告诉{get_index(data, '贵族')+1}号贵族信息哦！")
+    if data[get_index(data, '贵族')][0] == '正常':
+        a = input(f"（说书人）请告诉{get_index(data, '贵族')+1}号贵族正确信息哦！")
+    elif data[get_index(data, '贵族')][0] == '中毒':
+        a = input(f"（说书人）请告诉{get_index(data, '贵族')+1}号贵族错误信息哦！")
 
 if get_index(data, '气球驾驶员') != None and data[get_index(data, '气球驾驶员')][0] != '死亡':
-    print(f"（说书人）请告诉{get_index(data, '气球驾驶员')+1}号气球驾驶员信息！")
+    if data[get_index(data, '贵族')][0] == '正常':
+        balloon = input(f"（说书人）请告诉{get_index(data, '气球驾驶员')+1}号气球驾驶员正确信息哦！")
+    elif data[get_index(data, '贵族')][0] == '中毒':
+        balloon = input(f"（说书人）请告诉{get_index(data, '气球驾驶员')+1}号气球驾驶员错误信息哦！")
 
 print("\n更新后的角色信息:")
 for row in data:
@@ -236,22 +243,37 @@ print('\n')
 print('今晚死亡的玩家是：', death_list)
 print('今晚复活的玩家是：', reborn_list)
 
-if get_index(data, '精神病患者') != None:
-    jsb = input('精神病要砍人吗？(y/n) ')
+if get_index(data, '渔夫') != None and data[get_index(data, '渔夫')][1] == '可用' and data[get_index(data, '渔夫')][0] != '死亡':
+    fisher = input('（说书人）渔夫要问信息吗？(y/n) ')
+    if fisher == 'y':
+        data[get_index(data, '渔夫')][1] = '不可'
+        if data[get_index(data, '渔夫')][0] == '正常':
+            f = input(f"（说书人）告诉{get_index(data, '渔夫')+1}号渔夫正确信息哦！")
+        elif data[get_index(data, '渔夫')][0] == '中毒':
+            f = input(f"（说书人）告诉{get_index(data, '渔夫')+1}号渔夫错误信息哦！")
+
+if get_index(data, '博学者') != None and data[get_index(data, '博学者')][0] != '死亡':
+    if data[get_index(data, '博学者')][0] == '正常':
+        b = input(f"（说书人）告诉{get_index(data, '博学者')+1}号博学者正确信息哦！")
+    elif data[get_index(data, '博学者')][0] == '中毒':
+        b = input(f"（说书人）告诉{get_index(data, '博学者')+1}号博学者错误信息哦！")
+
+if get_index(data, '精神病患者') != None and data[get_index(data, '精神病患者')][0] != '死亡':
+    jsb = input('（说书人）精神病要砍人吗？(y/n) ')
     if jsb == 'y':
         who_jsb = input(' - 谁被砍死了？')
         data[int(who_jsb)-1][0] = '死亡'
 
 if get_index(data, '魔像') != None and data[get_index(data, '魔像')][1] == '可用':    
-    statue = input('魔像有撞死人吗？(y/n) ')
+    statue = input('（说书人）魔像有撞死人吗？(y/n) ')
     if statue == 'y':
         who_statue = input(' - 谁被撞死了？')
         data[int(who_statue)-1][0] = '死亡'
         data[get_index(data, '魔像')][1] = '不可'
 
-lynch = input('有人被处决了？(y/n) ')
+lynch = input('（说书人）有人被处决了？(y/n) ')
 if lynch == 'y':
-    who_lynch = input('谁被处决了？')
+    who_lynch = input('（说书人）谁被处决了？')
     data[int(who_lynch)-1][0] = '死亡'
 
 if poison_bool == True:
