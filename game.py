@@ -230,9 +230,9 @@ if get_index(data, '贵族') != None and night == '1':
         a = input(f"（说书人）请告诉{get_index(data, '贵族')+1}号贵族错误信息哦！")
 
 if get_index(data, '气球驾驶员') != None and data[get_index(data, '气球驾驶员')][0] != '死亡':
-    if data[get_index(data, '贵族')][0] == '正常':
+    if data[get_index(data, '气球驾驶员')][0] == '正常':
         balloon = input(f"（说书人）请告诉{get_index(data, '气球驾驶员')+1}号气球驾驶员正确信息哦！")
-    elif data[get_index(data, '贵族')][0] == '中毒':
+    elif data[get_index(data, '气球驾驶员')][0] == '中毒':
         balloon = input(f"（说书人）请告诉{get_index(data, '气球驾驶员')+1}号气球驾驶员错误信息哦！")
 
 print("\n更新后的角色信息:")
